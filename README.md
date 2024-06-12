@@ -5,8 +5,12 @@
 A Python application that processes prisoner data, provides a REST API for accessing the data, and displays the data as interactive charts in a web browser.
 
 ### Built with
+
 - Python 3.10
-    - PyMuPDF
+  - PyMuPDF
+  - Pandas
+  - Fast API
+  - Python_dotenv
 
 ## Getting started
 
@@ -15,6 +19,7 @@ To get a local copy up and running, follow these steps:
 ### Prerequisites
 
 You should have the following installed on your machine:
+
 - [Python 3](https://www.python.org/) (3.10 was used during development)
 - [pip](https://pypi.org/project/pip/)
 
@@ -31,7 +36,32 @@ This script will load and manipulate the dataset using Pandas, outputting it as 
 python .\load_data.py
 
 ```
-<!-- 
+
 ## API usage
 
-TODO -->
+Before you get started, create a file called `.env` in the src folder so you can configure some authentication credentials for the API. Within the file, set an API_USERNAME and API_PASSWORD value like so:
+
+```
+API_USERNAME=joebloggs
+API_PASSWORD=a-very-secure-password
+```
+
+Once set, run the following command within the src folder:
+
+```shell
+
+uvicorn main:app --reload
+
+```
+
+The API should then be accessible from <http://127.0.0.1:8000> and you can access the Swagger documentation at <http://127.0.0.1:8000/docs>. When using Swagger, make sure that you click the **Authorise** button first and put in your pre-configured database credentials for HTTP Basic Auth before you try to use any of the endpoints.
+
+If using another method of HTTP requests e.g. Postman, cURL or Invoke-WebRequests, make sure you set the Authorization header with a value of `Basic`, followed by your credentials concatenated with a colon and base 64 encoded afterwards e.g.
+
+```http
+
+GET /api/helloworld/joe HTTP/1.1
+Host: 127.0.0.1:8000
+Authorization: Basic am9lYmxvZ2dzOmEtdmVyeS1zZWN1cmUtcGFzc3dvcmQ=
+
+```
