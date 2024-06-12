@@ -11,6 +11,9 @@ import os
 import sys
 import logging
 import pymupdf
+import pandas as pd
+import analysis
+from io import StringIO
 from typing import List
 
 # Configure logging
@@ -29,8 +32,8 @@ def load_data() -> list:
 
     Returns:
     list: A string array of the dataset with each item a comma separated string for a row in the dataset
-
     """
+
     logging.info(f"Opening {DATA_SOURCE_NAME}")
 
     # Build the base path using the folder our script lives in
@@ -101,6 +104,32 @@ def load_data() -> list:
     return data_source
 
 
+def data_to_pandas(data: List[str]) -> pd.DataFrame:
+    """
+    Convert the raw dataset to a pandas DataFrame
+
+    Parameters:
+    data: An array of comma separated strings
+
+    Returns:
+    pd.DataFrame: A pandas DataFrame of the dataset
+    """
+
+    logging.info("Converting data to CSV file")
+
+    data_as_csv_string = "\n".join(data)
+
+    csv_file = StringIO(data_as_csv_string)
+
+    logging.info("Reading CSV file into Pandas")
+
+    data_frame = pd.read_csv(csv_file)
+
+    logging.info(f"\n{data_frame}")
+
+    return data_frame
+
+
 def main(args: List[str]) -> None:
     """
     Main function that orchestrates the script's functionality.
@@ -108,10 +137,17 @@ def main(args: List[str]) -> None:
     Parameters:
     args: A list of arguments
     """
+
     logging.info("Starting processing...")
 
     # Extract from PDF and load as an array of comma separated strings
     raw_dataset = load_data()
+
+    # Convert the raw dataset to a Pandas DataFrame
+    data_frame = data_to_pandas(raw_dataset)
+
+    # Perform basic analysis
+    analysis.perform_analysis(data_frame)
 
 
 if __name__ == "__main__":
