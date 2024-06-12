@@ -16,6 +16,8 @@ def perform_analysis(data_frame: pd.DataFrame):
 
     prisoners_by_crime_type(data_frame)
 
+    average_sentence_length(data_frame)
+
 
 def prisoners_by_crime_type(data_frame: pd.DataFrame) -> pd.DataFrame:
     """
@@ -39,6 +41,8 @@ def prisoners_by_crime_type(data_frame: pd.DataFrame) -> pd.DataFrame:
     logging.info(f"Prisoners by crime type")
     logging.info(f"\n{prisoners_by_crime_type.to_string(index=False)}")
 
+    return prisoners_by_crime_type
+
 
 def average_sentence_length(data_frame: pd.DataFrame) -> float:
     """
@@ -50,6 +54,18 @@ def average_sentence_length(data_frame: pd.DataFrame) -> float:
     Returns:
     float: The average sentence length.
     """
+
+    # Get the average of the sentence_years column
+    average_sentence_length = data_frame["sentence_years"].mean()
+
+    # Convert the value to years and months
+    years = int(average_sentence_length)
+    months = (average_sentence_length - years) * 12
+    months = int(round(months))
+
+    logging.info(f"Average sentence length: {years} years and {months} months")
+
+    return average_sentence_length
 
 
 def gender_distribution(data_frame: pd.DataFrame) -> pd.Series:
