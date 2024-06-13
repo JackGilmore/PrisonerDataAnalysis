@@ -13,6 +13,7 @@ import logging
 import pymupdf
 import pandas as pd
 import analysis
+import database
 from io import StringIO
 from typing import List
 
@@ -148,6 +149,22 @@ def main(args: List[str]) -> None:
 
     # Perform basic analysis
     analysis.perform_analysis(data_frame)
+
+    # Load data into SQLite database
+    database.load_data_frame_to_database(data_frame)
+
+    # Test retrieve a record
+    prisoner = database.get_prisoner_by_id(5)
+    if prisoner:
+        print(f"Prisoner ID: {prisoner.prisoner_id}, Name: {prisoner.name}, Age: {prisoner.age}")
+    else:
+        print("Prisoner not found.")
+
+    # Test retrieve all records
+    paginated_prisoners = database.get_paginated_prisoners()
+    print("\nPrisoners list:")
+    for prisoner in paginated_prisoners:
+        print(f"Prisoner ID: {prisoner.prisoner_id}, Name: {prisoner.name}, Age: {prisoner.age}")
 
 
 if __name__ == "__main__":
