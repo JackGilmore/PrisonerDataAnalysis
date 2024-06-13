@@ -11,6 +11,8 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from dotenv import load_dotenv
 import os
+import database
+from models import Prisoner, Base
 
 # Load environment variables from .env file
 load_dotenv()
@@ -44,3 +46,11 @@ async def hello_world(name: str, authenticated: bool = Depends(authenticate_user
     """
 
     return {"message": f"Hello {name}"}
+
+@app.get("/api/prisoners/{prisoner_id}")
+async def prisoner_by_id(prisoner_id: int, authenticated: bool = Depends(authenticate_user)):
+    prisoner = database.get_prisoner_by_id(prisoner_id)
+    if prisoner:
+        return prisoner
+    else:
+        raise HTTPException(status_code=404, detail="Prisoner not found")
