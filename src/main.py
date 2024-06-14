@@ -9,6 +9,7 @@ Date: 2024-06-12
 
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 import os
 import database
@@ -26,6 +27,9 @@ app = FastAPI()
 
 # Create an instance of the HTTPBasic class
 security = HTTPBasic()
+
+# Mount static files folder for dashboard
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 # Define a function to authenticate users
 def authenticate_user(credentials: HTTPBasicCredentials = Depends(security)):
