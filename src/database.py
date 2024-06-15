@@ -52,9 +52,12 @@ def load_data_frame_to_database(data_frame: pd.DataFrame) -> None:
 
     db_engine = create_engine()
 
-    data_frame = data_frame.set_index("prisoner_id")
+    try:
+        data_frame = data_frame.set_index("prisoner_id")
 
-    data_frame.to_sql(name="prisoners", con=db_engine, if_exists="replace")
+        data_frame.to_sql(name="prisoners", con=db_engine, if_exists="replace")
+    finally:
+        db_engine.dispose()
 
 
 def get_prisoner_by_id(prisoner_id: int) -> Prisoner:
