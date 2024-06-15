@@ -106,3 +106,28 @@ def get_paginated_prisoners(page: int = None, per_page: int = None) -> list[Pris
         return prisoners
     finally:
         session.close()
+
+
+def get_all_prisoners_as_dataframe() -> pd.DataFrame:
+    """
+    Fetches all prisoners and returns them as a pandas DataFrame.
+
+    Returns:
+    pd.DataFrame: DataFrame containing all prisoners.
+    """
+
+    session = create_session()
+
+    try:
+        prisoners = session.query(Prisoner).all()
+
+        # Convert the list of Prisoner objects to a list of dictionaries
+        prisoners_data = [prisoner.__dict__ for prisoner in prisoners]
+
+        # Remove the SQLAlchemy _sa_instance_state entry
+        for data in prisoners_data:
+            data.pop("_sa_instance_state", None)
+
+        return pd.DataFrame(prisoners_data)
+    finally:
+        session.close()

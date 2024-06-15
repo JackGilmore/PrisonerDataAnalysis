@@ -184,22 +184,48 @@ def age_distribution(data_frame: pd.DataFrame) -> pd.Series:
     return age_distribution
 
 
-def perform_analysis(data_frame: pd.DataFrame):
+def dataframe_to_oriented_dict(data_frame: pd.DataFrame) -> dict:
+    """
+    Converts a DataFrame to a dict oriented by records
+
+    Parameters:
+    data_frame (pd.DataFrame): The DataFrame.
+
+    Returns
+    dict: A dict oriented by records
+    """
+    return data_frame.to_dict(orient="records")
+
+
+def perform_analysis(data_frame: pd.DataFrame) -> dict:
     """
     Performs a range of basic analysis on the prisoner dataset
 
     Parameters:
     data_frame (pd.DataFrame): The DataFrame containing prisoner data.
+
+    Returns
+    dict: A dict of all the analysis statistics
     """
 
     logging.info("Performing analysis")
 
-    prisoners_by_crime_type(data_frame)
+    prisoners_by_crime_type_stat = prisoners_by_crime_type(data_frame)
 
-    average_sentence_length(data_frame)
+    average_sentence_length_stat = average_sentence_length(data_frame)
 
-    gender_distribution(data_frame)
+    gender_distribution_stat = gender_distribution(data_frame)
 
-    prisoners_by_prison(data_frame)
+    prisoners_by_prison_stat = prisoners_by_prison(data_frame)
 
-    age_distribution(data_frame)
+    age_distribution_stat = age_distribution(data_frame)
+
+    return {
+        "prisoners_by_crime_type": dataframe_to_oriented_dict(
+            prisoners_by_crime_type_stat
+        ),
+        "average_sentence_length": average_sentence_length_stat,
+        "gender_distribution": dataframe_to_oriented_dict(gender_distribution_stat),
+        "prisoners_by_prison": dataframe_to_oriented_dict(prisoners_by_prison_stat),
+        "age_distribution": dataframe_to_oriented_dict(age_distribution_stat),
+    }

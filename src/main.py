@@ -12,6 +12,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 import os
+import analysis
 import database
 from models import Prisoner, Base
 from typing import Optional
@@ -56,15 +57,24 @@ def read_prisoners(
     authenticated: bool = Depends(authenticate_user),
 ):
     prisoners = database.get_paginated_prisoners(page, per_page)
+
     if prisoners is None:
         raise HTTPException(status_code=404, detail="Prisoners not found")
+
     return prisoners
 
 
 @app.get("/api/analysis")
 @app.get("/api/analysis/", include_in_schema=False)
 def read_prisoners(authenticated: bool = Depends(authenticate_user)):
-    return {"message": "TODO"}
+    prisoners = database.get_all_prisoners_as_dataframe()
+
+    if prisoners is None:
+        raise HTTPException(status_code=404, detail="Prisoners not found")
+
+    summary_analysis = analysis.perform_analysis(prisoners)
+
+    return summary_analysis
 
 
 # Mount static files folder for dashboard
