@@ -28,9 +28,6 @@ app = FastAPI()
 # Create an instance of the HTTPBasic class
 security = HTTPBasic()
 
-# Mount static files folder for dashboard
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
-
 # Define a function to authenticate users
 def authenticate_user(credentials: HTTPBasicCredentials = Depends(security)):
     if credentials.username != USERNAME or credentials.password != PASSWORD:
@@ -58,3 +55,7 @@ async def prisoner_by_id(prisoner_id: int, authenticated: bool = Depends(authent
         return prisoner
     else:
         raise HTTPException(status_code=404, detail="Prisoner not found")
+
+# Mount static files folder for dashboard
+# NOTE: Static file mount must come last 
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
