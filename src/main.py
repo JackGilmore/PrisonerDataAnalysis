@@ -66,7 +66,7 @@ def read_prisoners(
 
 @app.get("/api/analysis")
 @app.get("/api/analysis/", include_in_schema=False)
-def read_prisoners(authenticated: bool = Depends(authenticate_user)):
+def read_prisoners():
     prisoners = database.get_all_prisoners_as_dataframe()
 
     if prisoners is None:
