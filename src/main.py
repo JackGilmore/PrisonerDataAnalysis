@@ -36,6 +36,7 @@ def authenticate_user(credentials: HTTPBasicCredentials = Depends(security)):
         raise HTTPException(status_code=401, detail="Incorrect credentials supplied")
     return True
 
+
 @app.get("/api/prisoners/{prisoner_id}")
 async def prisoner_by_id(
     prisoner_id: int, authenticated: bool = Depends(authenticate_user)
@@ -47,14 +48,24 @@ async def prisoner_by_id(
         raise HTTPException(status_code=404, detail="Prisoner not found")
 
 
-@app.get("/prisoners/")
+@app.get("/api/prisoners")
+@app.get("/api/prisoners/", include_in_schema=False)
 def read_prisoners(
-    page: Optional[int] = Query(None, gt=0), per_page: Optional[int] = Query(None, gt=0)
+    page: Optional[int] = Query(None, gt=0),
+    per_page: Optional[int] = Query(None, gt=0),
+    authenticated: bool = Depends(authenticate_user),
 ):
     prisoners = database.get_paginated_prisoners(page, per_page)
     if prisoners is None:
         raise HTTPException(status_code=404, detail="Prisoners not found")
     return prisoners
+
+
+@app.get("/api/analysis")
+@app.get("/api/analysis/", include_in_schema=False)
+def read_prisoners(authenticated: bool = Depends(authenticate_user)):
+    return {"message": "TODO"}
+
 
 # Mount static files folder for dashboard
 # NOTE: Static file mount must come last
