@@ -30,9 +30,9 @@ def prisoners_by_crime_type(data_frame: pd.DataFrame) -> pd.DataFrame:
         data_frame.groupby("crime").size().reset_index(name="count")
     )
 
-    # Sort the results
+    # Sort the results alphabetically by crime
     prisoners_by_crime_type = prisoners_by_crime_type.sort_values(
-        by="count", ascending=False
+        by="crime", ascending=True
     ).reset_index(drop=True)
 
     logging.info(f"Prisoners by crime type")
@@ -84,6 +84,11 @@ def average_sentence_length_by_crime_type(data_frame) -> pd.DataFrame:
         lambda x: f"{int(x)} years and {int((x % 1) * 12)} months"
     )
 
+    # Sort the results alphabetically by crime
+    sentence_length_by_crime_type = sentence_length_by_crime_type.sort_values(
+        by="crime", ascending=True
+    ).reset_index(drop=True)
+
     logging.info(f"Average sentence length by crime type")
     logging.info(f"\n{sentence_length_by_crime_type.to_string(index=False)}")
 
@@ -132,9 +137,9 @@ def prisoners_by_prison(data_frame: pd.DataFrame) -> pd.DataFrame:
     # Group by prison column and get prisoner counts
     prisoners_by_prison = data_frame.groupby("prison").size().reset_index(name="count")
 
-    # Sort the results
+    # Sort the results alphabetically by prison
     prisoners_by_prison = prisoners_by_prison.sort_values(
-        by="count", ascending=False
+        by="prison", ascending=True
     ).reset_index(drop=True)
 
     logging.info(f"Prisoners by prison")
