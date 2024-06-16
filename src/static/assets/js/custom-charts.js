@@ -60,6 +60,16 @@ function createPrisonersByCrimeTypeChart(data) {
             scales: {
                 y: {
                     beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Occurrences of crime"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Crime Type"
+                    }
                 },
             },
             plugins: {
@@ -103,6 +113,16 @@ function createAverageSentenceLengthChart(data) {
             scales: {
                 y: {
                     beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Sentence length (years)"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Crime Type"
+                    }
                 },
             },
             plugins: {
@@ -141,6 +161,9 @@ function createGenderDistributionChart(data) {
         },
         options: {
             plugins: {
+                legend: {
+                    display: true
+                },
                 tooltip: {
                     callbacks: {
                         label: function (context) {
@@ -177,6 +200,16 @@ function createPrisonersByPrisonChart(data) {
             scales: {
                 y: {
                     beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Prisoners (count)"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Prison"
+                    }
                 },
             },
             plugins: {
@@ -216,6 +249,16 @@ function createAgeDistributionChart(data) {
             scales: {
                 y: {
                     beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Prisoners (count)"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Age band"
+                    }
                 },
             },
             plugins: {
