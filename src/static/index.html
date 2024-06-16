@@ -71,11 +71,19 @@
                         </div>
 
                         <h2>Gender Distribution</h2>
-                        <p>TODO</p>
+                        <div>
+                            <canvas id="gender-distribution-chart"></canvas>
+                        </div>
+
                         <h2>Prisoners by Prison</h2>
-                        <p>TODO</p>
+                        <div>
+                            <canvas id="prisoners-by-prison-chart"></canvas>
+                        </div>
+
                         <h2>Age Distribution</h2>
-                        <p>TODO</p>
+                        <div>
+                            <canvas id="age-distribution-chart"></canvas>
+                        </div>
 
                     </div>
                 </main>
@@ -136,6 +144,12 @@
             createPrisonersByCrimeTypeChart(data.prisoners_by_crime_type);
             
             createAverageSentenceLengthChart(data.average_sentence_length_by_crime_type);
+
+            createGenderDistributionChart(data.gender_distribution);
+
+            createPrisonersByPrisonChart(data.prisoners_by_prison);
+
+            createAgeDistributionChart(data.age_distribution);
         });
 
     </script>

@@ -17,7 +17,7 @@ function formatYearsAndMonths(value) {
     return `${years} years and ${months} months`;
 }
 
-async function createPrisonersByCrimeTypeChart(data) {
+function createPrisonersByCrimeTypeChart(data) {
 
     // Extract labels and data from the JSON
     const labels = data.map(item => item.crime);
@@ -44,7 +44,7 @@ async function createPrisonersByCrimeTypeChart(data) {
     });
 }
 
-async function createAverageSentenceLengthChart(data) {
+function createAverageSentenceLengthChart(data) {
     // Extract labels and data
     const labels = data.map(item => item.crime);
     const counts = data.map(item => item.average_sentence_years);
@@ -78,4 +78,16 @@ async function createAverageSentenceLengthChart(data) {
             }
         },
     });
+}
+
+function createGenderDistributionChart(data) {
+
+}
+
+function createPrisonersByPrisonChart(data) {
+
+}
+
+function createAgeDistributionChart(data) {
+
 }
