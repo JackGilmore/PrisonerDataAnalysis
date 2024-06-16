@@ -25,6 +25,7 @@ logging.basicConfig(
 # Constants
 DATA_SOURCE_NAME = "coding-test.pdf"
 DATASET_HEADER = "prisoner_id,name,age,gender,crime,sentence_years,prison"
+GENDER_MAP = {"M": "Male", "F": "Female"}
 
 
 def load_data() -> list:
@@ -126,6 +127,9 @@ def data_to_pandas(data: List[str]) -> pd.DataFrame:
 
     data_frame = pd.read_csv(csv_file)
 
+    # Remap the gender column with values that read better
+    data_frame["gender"] = data_frame["gender"].map(GENDER_MAP)
+
     logging.info(f"\n{data_frame}")
 
     return data_frame
@@ -156,7 +160,9 @@ def main(args: List[str]) -> None:
     # Test retrieve a record
     prisoner = database.get_prisoner_by_id(5)
     if prisoner:
-        print(f"Prisoner ID: {prisoner.prisoner_id}, Name: {prisoner.name}, Age: {prisoner.age}")
+        print(
+            f"Prisoner ID: {prisoner.prisoner_id}, Name: {prisoner.name}, Age: {prisoner.age}"
+        )
     else:
         print("Prisoner not found.")
 
@@ -164,7 +170,9 @@ def main(args: List[str]) -> None:
     paginated_prisoners = database.get_paginated_prisoners()
     print("\nPrisoners list:")
     for prisoner in paginated_prisoners:
-        print(f"Prisoner ID: {prisoner.prisoner_id}, Name: {prisoner.name}, Age: {prisoner.age}")
+        print(
+            f"Prisoner ID: {prisoner.prisoner_id}, Name: {prisoner.name}, Age: {prisoner.age}"
+        )
 
 
 if __name__ == "__main__":

@@ -44,7 +44,7 @@ async def prisoner_by_id(
 ):
     prisoner = database.get_prisoner_by_id(prisoner_id)
     if prisoner:
-        return prisoner
+        return prisoner.to_json()
     else:
         raise HTTPException(status_code=404, detail="Prisoner not found")
 
@@ -61,7 +61,7 @@ def read_prisoners(
     if prisoners is None:
         raise HTTPException(status_code=404, detail="Prisoners not found")
 
-    return prisoners
+    return list(map(lambda prisoners: prisoners.to_json(), prisoners))
 
 
 @app.get("/api/analysis")

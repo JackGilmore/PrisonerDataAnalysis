@@ -10,9 +10,6 @@ Date: 2024-06-12
 import logging
 import pandas as pd
 
-# Constants
-GENDER_MAP = {"M": "Male", "F": "Female"}
-
 
 def prisoners_by_crime_type(data_frame: pd.DataFrame) -> pd.DataFrame:
     """
@@ -76,13 +73,15 @@ def average_sentence_length_by_crime_type(data_frame) -> pd.DataFrame:
     pd.DataFrame: A DataFrame with crime types and their corresponding average sentence lengths
                   in years and in a readable "years and months" format.
     """
-    sentence_length_by_crime_type = data_frame.groupby("crime")["sentence_years"].mean().reset_index()
+    sentence_length_by_crime_type = (
+        data_frame.groupby("crime")["sentence_years"].mean().reset_index()
+    )
     sentence_length_by_crime_type.columns = ["crime", "average_sentence_years"]
 
     # Convert average sentence length to years and months
-    sentence_length_by_crime_type["average_sentence"] = sentence_length_by_crime_type["average_sentence_years"].apply(
-        lambda x: f"{int(x)} years and {int((x % 1) * 12)} months"
-    )
+    sentence_length_by_crime_type["average_sentence"] = sentence_length_by_crime_type[
+        "average_sentence_years"
+    ].apply(lambda x: f"{int(x)} years and {int((x % 1) * 12)} months")
 
     # Sort the results alphabetically by crime
     sentence_length_by_crime_type = sentence_length_by_crime_type.sort_values(
@@ -95,7 +94,7 @@ def average_sentence_length_by_crime_type(data_frame) -> pd.DataFrame:
     return sentence_length_by_crime_type
 
 
-def gender_distribution(data_frame: pd.DataFrame) -> pd.Series:
+def gender_distribution(data_frame: pd.DataFrame) -> pd.DataFrame:
     """
     Analyses the gender distribution of prisoners.
 
@@ -103,7 +102,7 @@ def gender_distribution(data_frame: pd.DataFrame) -> pd.Series:
     data_frame (pd.DataFrame): The DataFrame containing prisoner data.
 
     Returns:
-    pd.Series: A Series with the count of prisoners for each gender.
+    pd.DataFrame: A DataFrame with the count of prisoners for each gender.
     """
 
     # Group by gender column and get prisoner counts
@@ -113,9 +112,6 @@ def gender_distribution(data_frame: pd.DataFrame) -> pd.Series:
     prisoners_by_gender = prisoners_by_gender.sort_values(
         by="count", ascending=False
     ).reset_index(drop=True)
-
-    # Remap the gender column with values that read better
-    prisoners_by_gender["gender"] = prisoners_by_gender["gender"].map(GENDER_MAP)
 
     logging.info(f"Gender distribution")
     logging.info(f"\n{prisoners_by_gender.to_string(index=False)}")
@@ -148,7 +144,7 @@ def prisoners_by_prison(data_frame: pd.DataFrame) -> pd.DataFrame:
     return prisoners_by_prison
 
 
-def age_distribution(data_frame: pd.DataFrame) -> pd.Series:
+def age_distribution(data_frame: pd.DataFrame) -> pd.DataFrame:
     """
     Analyses the age distribution of prisoners.
 
@@ -156,7 +152,7 @@ def age_distribution(data_frame: pd.DataFrame) -> pd.Series:
     data_frame (pd.DataFrame): The DataFrame containing prisoner data.
 
     Returns:
-    pd.Series: A Series with the distribution of ages.
+    pd.DataFrame: A DataFrame with the distribution of ages.
     """
 
     # Using age bands as defined in Scottish prison population statistics technical manual
@@ -244,7 +240,9 @@ def perform_analysis(data_frame: pd.DataFrame) -> dict:
 
     average_sentence_length_stat = average_sentence_length(data_frame)
 
-    average_sentence_length_by_crime_type_stat = average_sentence_length_by_crime_type(data_frame)
+    average_sentence_length_by_crime_type_stat = average_sentence_length_by_crime_type(
+        data_frame
+    )
 
     gender_distribution_stat = gender_distribution(data_frame)
 
@@ -257,7 +255,9 @@ def perform_analysis(data_frame: pd.DataFrame) -> dict:
             prisoners_by_crime_type_stat
         ),
         "average_sentence_length": average_sentence_length_stat,
-        "average_sentence_length_by_crime_type": dataframe_to_oriented_dict(average_sentence_length_by_crime_type_stat),
+        "average_sentence_length_by_crime_type": dataframe_to_oriented_dict(
+            average_sentence_length_by_crime_type_stat
+        ),
         "gender_distribution": dataframe_to_oriented_dict(gender_distribution_stat),
         "prisoners_by_prison": dataframe_to_oriented_dict(prisoners_by_prison_stat),
         "age_distribution": dataframe_to_oriented_dict(age_distribution_stat),
