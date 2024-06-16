@@ -71,7 +71,7 @@
                         </div>
 
                         <h2>Gender Distribution</h2>
-                        <div>
+                        <div style="height: 460px">
                             <canvas id="gender-distribution-chart"></canvas>
                         </div>
 
@@ -142,7 +142,7 @@
             const data = await fetchData();
 
             createPrisonersByCrimeTypeChart(data.prisoners_by_crime_type);
-            
+
             createAverageSentenceLengthChart(data.average_sentence_length_by_crime_type);
 
             createGenderDistributionChart(data.gender_distribution);
