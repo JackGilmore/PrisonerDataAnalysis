@@ -10,6 +10,7 @@ Date: 2024-06-13
 from sqlalchemy import Column, Integer, String, BigInteger, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from pydantic import BaseModel
 
 Base = declarative_base()
 
@@ -60,6 +61,27 @@ class Prisoner(Base):
             "sentence_years": self.sentence_years,
             "prison": self.prison.name,
         }
+
+    def to_out(self):
+        return Prisoner_Out(self)
+
+class Prisoner_Out(BaseModel):
+    prisoner_id: int
+    name: str
+    age: int
+    gender: str
+    crime: str
+    sentence_years: int
+    prison: str
+
+    def __init__(self, prisoner: Prisoner):
+        self.prisoner_id = prisoner.prisoner_id
+        self.name = prisoner.name
+        self.age = prisoner.age
+        self.gender = prisoner.gender.title
+        self.crime = prisoner.crime.name
+        self.sentence_years = prisoner.sentence_years
+        self.prison = prisoner.prison.name
 
 
 Gender.prisoners = relationship(

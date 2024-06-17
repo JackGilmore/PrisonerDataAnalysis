@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 import os
 import analysis
 import database
-from models import Prisoner, Base
+from models import Prisoner, Prisoner_Out, Base
 from typing import Optional
 
 # Load environment variables from .env file
@@ -41,10 +41,10 @@ def authenticate_user(credentials: HTTPBasicCredentials = Depends(security)):
 @app.get("/api/prisoners/{prisoner_id}")
 async def prisoner_by_id(
     prisoner_id: int, authenticated: bool = Depends(authenticate_user)
-):
+) -> Prisoner_Out:
     prisoner = database.get_prisoner_by_id(prisoner_id)
     if prisoner:
-        return prisoner.to_json()
+        return prisoner.to_out()
     else:
         raise HTTPException(status_code=404, detail="Prisoner not found")
 
@@ -55,18 +55,18 @@ def read_prisoners(
     page: Optional[int] = Query(None, gt=0),
     per_page: Optional[int] = Query(None, gt=0),
     authenticated: bool = Depends(authenticate_user),
-):
+) -> list[Prisoner_Out]:
     prisoners = database.get_paginated_prisoners(page, per_page)
 
     if prisoners is None:
         raise HTTPException(status_code=404, detail="Prisoners not found")
 
-    return list(map(lambda prisoners: prisoners.to_json(), prisoners))
+    return list(map(lambda prisoners: prisoners.to_out(), prisoners))
 
 
 @app.get("/api/analysis")
 @app.get("/api/analysis/", include_in_schema=False)
-def read_prisoners():
+def analysis_output():
     prisoners = database.get_all_prisoners_as_dataframe()
 
     if prisoners is None:
