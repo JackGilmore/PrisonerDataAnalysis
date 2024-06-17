@@ -32,7 +32,7 @@ Make sure you run `pip install -r requirements.txt` first from the `src` folder.
 > [!IMPORTANT]  
 > Run this script before you start the API up so it is populated with data
 
-This script will load and manipulate the dataset using Pandas, outputting it as an SQLite file. Run it from the src folder.
+This script will load and manipulate the dataset using Pandas, outputting it as an SQLite file. Run it from the `src` folder.
 
 ```shell
 
@@ -52,7 +52,7 @@ API_PASSWORD=a-very-secure-password
 > [!IMPORTANT]  
 > Make sure you have ran `load_data.py` first so your API has data to access
 
-Once set, run the following command within the src folder:
+Once set, run the following command within the `src` folder:
 
 ```shell
 
