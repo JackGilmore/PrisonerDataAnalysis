@@ -27,7 +27,7 @@ If you are using GitHub codespaces, these should be available by default.
 
 Make sure you run `pip install -r requirements.txt` first from the `src` folder.
 
-## load_data script usage
+### load_data script usage
 
 > [!IMPORTANT]  
 > Run this script before you start the API up so it is populated with data
@@ -40,7 +40,7 @@ python .\load_data.py
 
 ```
 
-## API and dashboard usage
+### API and dashboard usage
 
 Before you get started, create a file called `.env` in the src folder so you can configure some authentication credentials for the API. Within the file, set an API_USERNAME and API_PASSWORD value like so:
 
