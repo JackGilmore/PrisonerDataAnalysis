@@ -11,6 +11,34 @@ import logging
 import pandas as pd
 
 
+def years_number_to_formatted_string(years_number: float) -> str:
+    """
+    Takes a float number and converts it to "x years and y months" where applicable
+
+    Parameters:
+    years_number (float): The number of years as a floating point number
+
+    Returns:
+    str: A formatted string of years and months where applicable
+    """
+    years = int(years_number)
+    months = (years_number - years) * 12
+    months = int(round(months))
+
+    formatted_string = ""
+
+    if years > 0:
+        formatted_string += f"{years} years"
+
+    if months > 0 and years > 0:
+        formatted_string += " and "
+
+    if months > 0:
+        formatted_string += f"{months} months"
+
+    return formatted_string
+
+
 def prisoners_by_crime_type(data_frame: pd.DataFrame) -> pd.DataFrame:
     """
     Analyses the number of prisoners by crime type.
@@ -53,11 +81,9 @@ def average_sentence_length(data_frame: pd.DataFrame) -> float:
     average_sentence_length = data_frame["sentence_years"].mean()
 
     # Convert the value to years and months
-    years = int(average_sentence_length)
-    months = (average_sentence_length - years) * 12
-    months = int(round(months))
+    formatted_average_sentence_length = years_number_to_formatted_string(average_sentence_length)
 
-    logging.info(f"Average sentence length: {years} years and {months} months")
+    logging.info(f"Average sentence length: {formatted_average_sentence_length}")
 
     return average_sentence_length
 
@@ -81,7 +107,7 @@ def average_sentence_length_by_crime_type(data_frame) -> pd.DataFrame:
     # Convert average sentence length to years and months
     sentence_length_by_crime_type["average_sentence"] = sentence_length_by_crime_type[
         "average_sentence_years"
-    ].apply(lambda x: f"{int(x)} years and {int((x % 1) * 12)} months")
+    ].apply(lambda x: f"{years_number_to_formatted_string(x)}")
 
     # Sort the results alphabetically by crime
     sentence_length_by_crime_type = sentence_length_by_crime_type.sort_values(
