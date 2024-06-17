@@ -66,7 +66,7 @@ If using another method of HTTP requests e.g. Postman, cURL or Invoke-WebRequest
 
 ```http
 
-GET /api/helloworld/joe HTTP/1.1
+GET /api/prisoners/42 HTTP/1.1
 Host: 127.0.0.1:8000
 Authorization: Basic am9lYmxvZ2dzOmEtdmVyeS1zZWN1cmUtcGFzc3dvcmQ=
 
