@@ -9,6 +9,18 @@ const dsDatavisGreen = '#5d9f3c';
 const dsDatavisBrown = '#592c20';
 const dsDatavisPink = '#ca72a2';
 
+const dsBackgroundColours = [
+    dsDatavisDarkBlue,
+    dsDatavisTeal,
+    dsDatavisPurple,
+    dsDatavisOrange,
+    dsDatavisDarkGreen,
+    dsDatavisGreen,
+    dsDatavisBrown,
+    dsDatavisPink
+];
+
+
 // Function to fetch data from the API endpoint
 async function fetchData() {
     try {
@@ -38,7 +50,7 @@ function getLabelsAndCounts(data, labelProperty, countProperty) {
 
 // Function to decide if to pluralise a label or not
 function getPluralisedLabel(value, labelText) {
-    return value == 1 ?  labelText : `${labelText}s`;
+    return value == 1 ? labelText : `${labelText}s`;
 }
 
 function createPrisonersByCrimeTypeChart(data) {
@@ -169,6 +181,71 @@ function createGenderDistributionChart(data) {
                 legend: {
                     display: true
                 },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "prisoner")}`;
+                        },
+                    },
+                },
+            },
+        },
+    });
+}
+
+function createGenderDistributionByCrimeTypeChart(data) {
+    const labels = Object.keys(data);
+
+    // Extract unique set of genders
+    const genders = new Set();
+    for (const crime in data) {
+        for (const gender in data[crime]) {
+            genders.add(gender);
+        }
+    }
+
+    // Convert genders set to array
+    const gendersArray = Array.from(genders);
+
+    // Prepare data arrays for each gender
+    const datasets = gendersArray.map((gender, index) => {
+        return {
+            label: gender,
+            data: Object.keys(data).map(crime => data[crime][gender] || 0),
+            backgroundColor: index < dsBackgroundColours.length - 1 ? dsBackgroundColours[index] : dsBackgroundColours[0]
+        };
+    });
+
+    // Create the chart
+    const ctx = document
+        .getElementById('gender-distribution-by-crime-type-chart')
+        .getContext('2d');
+    const genderDistributionByCrimeTypeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Prisoners (count)"
+                    },
+                    stacked: true
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Crime Type"
+                    },
+                    stacked: true
+                },
+            },
+            plugins: {
+                legend: { display: true },
                 tooltip: {
                     callbacks: {
                         label: function (context) {

@@ -87,6 +87,11 @@
                                 <canvas id="gender-distribution-chart"></canvas>
                             </div>
 
+                            <h2>Gender Distribution by Crime Type</h2>
+                            <div>
+                                <canvas id="gender-distribution-by-crime-type-chart"></canvas>
+                            </div>
+
                             <h2>Prisoners by Prison</h2>
                             <div>
                                 <canvas id="prisoners-by-prison-chart"></canvas>
@@ -159,6 +164,8 @@
                 createAverageSentenceLengthChart(data.average_sentence_length_by_crime_type);
 
                 createGenderDistributionChart(data.gender_distribution);
+
+                createGenderDistributionByCrimeTypeChart(data.gender_distribution_by_crime_type);
 
                 createPrisonersByPrisonChart(data.prisoners_by_prison);
 

@@ -25,6 +25,7 @@ from analysis import (
     average_sentence_length,
     average_sentence_length_by_crime_type,
     gender_distribution,
+    gender_distribution_by_crime_type,
     prisoners_by_prison,
     age_distribution,
 )
@@ -146,6 +147,25 @@ def test_gender_distribution():
 
     assert result.loc["Male", "count"] == expected_male_count
     assert result.loc["Female", "count"] == expected_female_count
+
+def test_gender_distribution_by_crime_type():
+    # ACT
+    result = gender_distribution_by_crime_type(sample_data)
+    
+    # ASSERT
+    expected_assault_male = 1
+    expected_assault_female = 1
+    expected_robbery_male = 1
+    expected_robbery_female = 0
+    expected_theft_male = 1
+    expected_theft_female = 1
+
+    assert result.loc["Assault", "Male"] == expected_assault_male
+    assert result.loc["Assault", "Female"] == expected_assault_female
+    assert result.loc["Robbery", "Male"] == expected_robbery_male
+    assert result.loc["Robbery", "Female"] == expected_robbery_female
+    assert result.loc["Theft", "Male"] == expected_theft_male
+    assert result.loc["Theft", "Female"] == expected_theft_female
 
 
 def test_prisoners_by_prison():

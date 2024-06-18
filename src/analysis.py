@@ -81,7 +81,9 @@ def average_sentence_length(data_frame: pd.DataFrame) -> float:
     average_sentence_length = data_frame["sentence_years"].mean()
 
     # Convert the value to years and months
-    formatted_average_sentence_length = years_number_to_formatted_string(average_sentence_length)
+    formatted_average_sentence_length = years_number_to_formatted_string(
+        average_sentence_length
+    )
 
     logging.info(f"Average sentence length: {formatted_average_sentence_length}")
 
@@ -143,6 +145,33 @@ def gender_distribution(data_frame: pd.DataFrame) -> pd.DataFrame:
     logging.info(f"\n{prisoners_by_gender.to_string(index=False)}")
 
     return prisoners_by_gender
+
+
+def gender_distribution_by_crime_type(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calculate the distribution of genders for each type of crime.
+
+    Parameters:
+    data_frame (pd.DataFrame): The DataFrame containing prisoner data.
+
+    Returns:
+    pd.DataFrame: A DataFrame with the distribution of genders for each type of crime.
+    """
+
+    # Group by crime type and gender, then count occurrences
+    gender_distribution_by_crime = (
+        df.groupby(["crime", "gender"]).size().unstack(fill_value=0)
+    )
+
+    # Sort the results
+    gender_distribution_by_crime = gender_distribution_by_crime.sort_values(
+        by="crime", ascending=True
+    )
+
+    logging.info(f"Gender distribution by crime type")
+    logging.info(f"\n{gender_distribution_by_crime}")
+
+    return gender_distribution_by_crime
 
 
 def prisoners_by_prison(data_frame: pd.DataFrame) -> pd.DataFrame:
@@ -238,7 +267,7 @@ def age_distribution(data_frame: pd.DataFrame) -> pd.DataFrame:
     return age_distribution
 
 
-def dataframe_to_oriented_dict(data_frame: pd.DataFrame) -> dict:
+def dataframe_to_oriented_dict(data_frame: pd.DataFrame, orient_direction="records") -> dict:
     """
     Converts a DataFrame to a dict oriented by records
 
@@ -248,7 +277,7 @@ def dataframe_to_oriented_dict(data_frame: pd.DataFrame) -> dict:
     Returns
     dict: A dict oriented by records
     """
-    return data_frame.to_dict(orient="records")
+    return data_frame.to_dict(orient=orient_direction)
 
 
 def perform_analysis(data_frame: pd.DataFrame) -> dict:
@@ -274,6 +303,8 @@ def perform_analysis(data_frame: pd.DataFrame) -> dict:
 
     gender_distribution_stat = gender_distribution(data_frame)
 
+    gender_distribution_by_crime_type_stat = gender_distribution_by_crime_type(data_frame)
+
     prisoners_by_prison_stat = prisoners_by_prison(data_frame)
 
     age_distribution_stat = age_distribution(data_frame)
@@ -287,6 +318,7 @@ def perform_analysis(data_frame: pd.DataFrame) -> dict:
             average_sentence_length_by_crime_type_stat
         ),
         "gender_distribution": dataframe_to_oriented_dict(gender_distribution_stat),
+        "gender_distribution_by_crime_type": dataframe_to_oriented_dict(gender_distribution_by_crime_type_stat, "index"),
         "prisoners_by_prison": dataframe_to_oriented_dict(prisoners_by_prison_stat),
         "age_distribution": dataframe_to_oriented_dict(age_distribution_stat),
     }
