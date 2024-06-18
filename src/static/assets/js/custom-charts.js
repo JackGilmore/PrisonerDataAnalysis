@@ -79,13 +79,13 @@ function createPrisonersByCrimeTypeChart(data) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Occurrences of crime"
+                        text: 'Occurrences of crime'
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: "Crime Type"
+                        text: 'Crime Type'
                     }
                 },
             },
@@ -93,7 +93,7 @@ function createPrisonersByCrimeTypeChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "occurrence")}`;
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, 'occurrence')}`;
                         },
                     },
                 },
@@ -132,13 +132,13 @@ function createAverageSentenceLengthChart(data) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Sentence length (years)"
+                        text: 'Sentence length (years)'
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: "Crime Type"
+                        text: 'Crime Type'
                     }
                 },
             },
@@ -178,16 +178,21 @@ function createGenderDistributionChart(data) {
         },
         options: {
             plugins: {
-                legend: {
-                    display: true
-                },
                 tooltip: {
                     callbacks: {
-                        label: function (context) {
-                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "prisoner")}`;
+                        label: function (context) {                            
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, 'prisoner')}`;
                         },
                     },
                 },
+                datalabels: {
+                    display: true,
+                    color: '#ffffff',
+                    formatter: function (value, context) {
+                        const gender = context.chart.data.labels[context.dataIndex];
+                        return `${gender}: ${value} ${getPluralisedLabel(value, 'prisoner')}`
+                    }
+                }
             },
         },
     });
@@ -232,14 +237,14 @@ function createGenderDistributionByCrimeTypeChart(data) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Prisoners (count)"
+                        text: 'Prisoners (count)'
                     },
                     stacked: true
                 },
                 x: {
                     title: {
                         display: true,
-                        text: "Crime Type"
+                        text: 'Crime Type'
                     },
                     stacked: true
                 },
@@ -249,7 +254,7 @@ function createGenderDistributionByCrimeTypeChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "prisoner")}`;
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, 'prisoner')}`;
                         },
                     },
                 },
@@ -284,13 +289,13 @@ function createPrisonersByPrisonChart(data) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Prisoners (count)"
+                        text: 'Prisoners (count)'
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: "Prison"
+                        text: 'Prison'
                     }
                 },
             },
@@ -298,7 +303,7 @@ function createPrisonersByPrisonChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "prisoner")}`;
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, 'prisoner')}`;
                         },
                     },
                 },
@@ -333,13 +338,13 @@ function createAgeDistributionChart(data) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Prisoners (count)"
+                        text: 'Prisoners (count)'
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: "Age band"
+                        text: 'Age band'
                     }
                 },
             },
@@ -347,7 +352,7 @@ function createAgeDistributionChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "prisoner")}`;
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, 'prisoner')}`;
                         },
                     },
                 },

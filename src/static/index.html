@@ -146,12 +146,15 @@
         <script src="/assets/sg-design-system/scripts/design-system.js"></script>
         <script src="/assets/sg-design-system/scripts/design-system.es5.js"></script>
         <script src="/assets/chart-js/chart.js"></script>
+        <script src="/assets/chart-js/chartjs-plugin-datalabels.js"></script>
         <script src="/assets/js/custom-charts.js"></script>
 
         <script>
             // Chart.js defaults
+            Chart.register(ChartDataLabels);
             Chart.defaults.font.family = `Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif`;
-            Chart.defaults.plugins.legend.display = false;
+            Chart.defaults.plugins.legend.display = false;            
+            Chart.defaults.plugins.datalabels.display = false;
         </script>
 
         <script>
