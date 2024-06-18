@@ -36,6 +36,11 @@ function getLabelsAndCounts(data, labelProperty, countProperty) {
     return [labels, counts];
 }
 
+// Function to decide if to pluralise a label or not
+function getPluralisedLabel(value, labelText) {
+    return value == 1 ?  labelText : `${labelText}s`;
+}
+
 function createPrisonersByCrimeTypeChart(data) {
     // Extract labels and data
     const [labels, counts] = getLabelsAndCounts(data, 'crime', 'count');
@@ -76,7 +81,7 @@ function createPrisonersByCrimeTypeChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return `${context.formattedValue} occurrences`;
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "occurrence")}`;
                         },
                     },
                 },
@@ -167,7 +172,7 @@ function createGenderDistributionChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return `${context.formattedValue} prisoners`;
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "prisoner")}`;
                         },
                     },
                 },
@@ -216,7 +221,7 @@ function createPrisonersByPrisonChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return `${context.formattedValue} prisoners`;
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "prisoner")}`;
                         },
                     },
                 },
@@ -265,7 +270,7 @@ function createAgeDistributionChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return `${context.formattedValue} prisoners`;
+                            return `${context.formattedValue} ${getPluralisedLabel(context.raw, "prisoner")}`;
                         },
                     },
                 },

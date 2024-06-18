@@ -186,6 +186,7 @@ def age_distribution(data_frame: pd.DataFrame) -> pd.DataFrame:
 
     # Define the bin edges and labels
     bin_edges = [
+        0,
         16,
         17,
         20,
@@ -204,6 +205,7 @@ def age_distribution(data_frame: pd.DataFrame) -> pd.DataFrame:
         float("inf"),
     ]
     bin_labels = [
+        "Under 16",
         "16-17",
         "18-20",
         "21-22",
