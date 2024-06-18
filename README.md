@@ -11,6 +11,9 @@ A Python application that processes prisoner data, provides a REST API for acces
   - Pandas
   - Fast API
   - Python_dotenv
+- Static HTML front-end
+  -  Scottish Government Design System
+  -  Chart.js
 
 ## Getting started
 
@@ -23,7 +26,7 @@ You should have the following installed on your machine:
 - [Python 3](https://www.python.org/) (3.10 was used during development)
 - [pip](https://pypi.org/project/pip/)
 
-If you are using GitHub codespaces, these should be available by default.
+If you are using GitHub Codespaces, these should be available by default.
 
 Make sure you run `pip install -r requirements.txt` first from the `src` folder.
 
