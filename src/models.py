@@ -62,8 +62,16 @@ class Prisoner(Base):
             "prison": self.prison.name,
         }
 
-    def to_out(self):
-        return Prisoner_Out(self)
+    def to_out(self) -> "Prisoner_Out":
+        return Prisoner_Out(
+            prisoner_id=self.prisoner_id,
+            name=self.name,
+            age=self.age,
+            gender=self.gender.title,
+            crime=self.crime.name,
+            sentence_years=self.sentence_years,
+            prison=self.prison.name
+        )
 
 class Prisoner_Out(BaseModel):
     prisoner_id: int
@@ -72,17 +80,7 @@ class Prisoner_Out(BaseModel):
     gender: str
     crime: str
     sentence_years: int
-    prison: str
-
-    def __init__(self, prisoner: Prisoner):
-        self.prisoner_id = prisoner.prisoner_id
-        self.name = prisoner.name
-        self.age = prisoner.age
-        self.gender = prisoner.gender.title
-        self.crime = prisoner.crime.name
-        self.sentence_years = prisoner.sentence_years
-        self.prison = prisoner.prison.name
-
+    prison: str    
 
 Gender.prisoners = relationship(
     "Prisoner", order_by=Prisoner.prisoner_id, back_populates="gender"
