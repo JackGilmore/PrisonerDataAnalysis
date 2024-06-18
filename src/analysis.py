@@ -253,7 +253,7 @@ def age_distribution(data_frame: pd.DataFrame) -> pd.DataFrame:
     ]
 
     # Create the bins
-    age_bins = pd.cut(data_frame["age"], bins=bin_edges, labels=bin_labels, right=False)
+    age_bins = pd.cut(data_frame["age"], bins=bin_edges, labels=bin_labels, right=True)
 
     # Count the number of occurrences in each bin
     age_distribution = (
